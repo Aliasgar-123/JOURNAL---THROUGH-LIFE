@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { navItems } from '@/lib/data';
+import { PreserveMemoryButton } from './preserve-memory-button';
 
 export function SiteShell({
   title,
@@ -54,9 +55,7 @@ export function SiteShell({
                 <h2 className="mt-2 text-4xl font-semibold tracking-[-0.07em] text-[#1a1715]">{title}</h2>
               </div>
 
-              <button className="inline-flex items-center justify-center rounded-full bg-[#1a1715] px-5 py-3 text-sm font-medium text-[#f5efe9] transition hover:bg-[#312a26]">
-                Preserve this memory
-              </button>
+              <PreserveMemoryButton />
             </div>
           </header>
 

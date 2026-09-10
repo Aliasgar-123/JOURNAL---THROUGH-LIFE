@@ -1,6 +1,7 @@
 import { ArrowRight, CalendarDays, Heart, Lock, MapPinned, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
-import { dashboardStats, recentMemories, timelineEvents } from '@/lib/data';
+import { dashboardStats, navItems, recentMemories, timelineEvents } from '@/lib/data';
+import { PreserveMemoryButton } from '@/components/preserve-memory-button';
 
 export default function HomePage() {
   return (
@@ -13,28 +14,17 @@ export default function HomePage() {
           </div>
 
           <nav className="space-y-2">
-            {[
-              'Dashboard',
-              'Timeline',
-              'Memories',
-              'Travel',
-              'Academia',
-              'People',
-              'Places',
-              'Media',
-              'Favorites',
-              'Settings',
-            ].map((item, index) => (
+            {navItems.map((item, index) => (
               <Link
-                key={item}
-                href={index === 0 ? '/' : '#'}
+                key={item.href}
+                href={item.href}
                 className={`flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-medium transition ${
                   index === 0
                     ? 'bg-[#efe5dd] text-[#1d1d1b]'
                     : 'text-[#584d47] hover:bg-[#f2eae2] hover:text-[#1d1d1b]'
                 }`}
               >
-                <span>{item}</span>
+                <span>{item.label}</span>
                 {index === 0 && <ArrowRight size={14} />}
               </Link>
             ))}
@@ -59,9 +49,7 @@ export default function HomePage() {
                 </h2>
               </div>
 
-              <button className="inline-flex items-center justify-center rounded-full bg-[#1a1715] px-5 py-3 text-sm font-medium text-[#f5efe9] transition hover:bg-[#312a26]">
-                Preserve this memory
-              </button>
+              <PreserveMemoryButton />
             </div>
           </header>
 

@@ -6,11 +6,6 @@ export const navItems = [
   { href: '/memories', label: 'Memories', icon: 'book' },
   { href: '/travel', label: 'Travel', icon: 'map' },
   { href: '/academia', label: 'Academia', icon: 'graduation-cap' },
-  { href: '/people', label: 'People', icon: 'users' },
-  { href: '/places', label: 'Places', icon: 'pin' },
-  { href: '/media', label: 'Media', icon: 'image' },
-  { href: '/favorites', label: 'Favorites', icon: 'star' },
-  { href: '/settings', label: 'Settings', icon: 'settings' },
 ];
 
 export const dashboardStats: DashboardStat[] = [
