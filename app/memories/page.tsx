@@ -1,10 +1,12 @@
 import { SiteShell } from '@/components/site-shell';
-import { recentMemories } from '@/lib/data';
+import { getMemories } from '@/lib/data';
 
-export default function MemoriesPage() {
+export default async function MemoriesPage() {
+  const recentMemories = await getMemories();
   return (
     <SiteShell title="Memories" subtitle="Your private archive">
       <div className="space-y-4">
+        {recentMemories.length === 0 && <p className="rounded-[28px] border border-[#e7dfd7] bg-[#fffdfb] p-6 text-sm text-[#685d56]">No memories yet. Use “Preserve this memory” to add your first one.</p>}
         {recentMemories.map((memory) => (
           <article key={memory.id} className="rounded-[28px] border border-[#e7dfd7] bg-[#fffdfb] p-6 shadow-sm">
             <div className="flex items-center justify-between gap-4">

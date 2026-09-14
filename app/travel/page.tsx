@@ -1,7 +1,10 @@
 import { SiteShell } from '@/components/site-shell';
-import { countries, recentMemories } from '@/lib/data';
+import { getMemories } from '@/lib/data';
 
-export default function TravelPage() {
+export default async function TravelPage() {
+  const memories = await getMemories();
+  const travelMemories = memories.filter((memory) => memory.category === 'Travel');
+  const countries = [...new Set(travelMemories.map((memory) => memory.location).filter(Boolean))];
   return (
     <SiteShell title="Travel" subtitle="Places, routes, and memories">
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -18,8 +21,7 @@ export default function TravelPage() {
         </div>
 
         <div className="space-y-4">
-          {recentMemories
-            .filter((memory) => memory.category === 'Travel')
+          {travelMemories
             .map((memory) => (
               <article key={memory.id} className="rounded-[28px] border border-[#e7dfd7] bg-[#fffdfb] p-6 shadow-sm">
                 <div className="text-xs uppercase tracking-[0.2em] text-[#8f7b6e]">{memory.location}</div>
@@ -27,6 +29,7 @@ export default function TravelPage() {
                 <p className="mt-4 text-sm leading-7 text-[#554d49]">{memory.description}</p>
               </article>
             ))}
+          {travelMemories.length === 0 && <p className="rounded-[28px] border border-[#e7dfd7] bg-[#fffdfb] p-6 text-sm text-[#685d56]">Travel memories will appear here when you add them.</p>}
         </div>
       </div>
     </SiteShell>

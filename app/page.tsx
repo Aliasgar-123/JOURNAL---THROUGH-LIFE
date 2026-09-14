@@ -1,9 +1,16 @@
 import { ArrowRight, CalendarDays, Heart, Lock, MapPinned, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
-import { dashboardStats, navItems, recentMemories, timelineEvents } from '@/lib/data';
+import { getDashboardStats, getMemories, navItems } from '@/lib/data';
 import { PreserveMemoryButton } from '@/components/preserve-memory-button';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const memories = await getMemories();
+  const dashboardStats = getDashboardStats(memories);
+  const recentMemories = memories.slice(0, 3);
+  const timelineEvents = memories.slice(0, 4).map((memory) => {
+    const date = new Date(`${memory.date}T00:00:00`);
+    return { year: String(date.getFullYear()), month: date.toLocaleString('en', { month: 'long' }), title: memory.title };
+  });
   return (
     <main className="min-h-screen bg-[#f5f0ea] text-[#1d1d1b]">
       <div className="mx-auto flex max-w-7xl gap-8 px-6 py-8 lg:px-8">
@@ -43,7 +50,7 @@ export default function HomePage() {
           <header className="rounded-[30px] border border-[#e7dfd7] bg-[#f9f4f1] p-6 shadow-[0_25px_60px_rgba(34,23,17,0.04)]">
             <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.28em] text-[#8c7767]">Good evening, Aliasgar</p>
+                <p className="text-sm uppercase tracking-[0.28em] text-[#8c7767]">Your private archive</p>
                 <h2 className="mt-2 text-4xl font-semibold tracking-[-0.07em] text-[#1a1715]">
                   Your life, beautifully remembered.
                 </h2>
@@ -127,6 +134,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="space-y-4">
+                  {timelineEvents.length === 0 && <p className="text-sm text-[#685d56]">Your timeline will appear here as you add memories.</p>}
                   {timelineEvents.map((event) => (
                     <div key={`${event.year}-${event.month}-${event.title}`} className="border-l border-[#d9c8bf] pl-4">
                       <div className="text-xs uppercase tracking-[0.22em] text-[#8a7769]">{event.year}</div>

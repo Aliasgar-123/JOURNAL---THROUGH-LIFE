@@ -2,14 +2,34 @@
 
 import { X } from 'lucide-react';
 import { FormEvent, useState } from 'react';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 export function PreserveMemoryButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSaved(true);
+    setSaving(true);
+    setError('');
+    const formData = new FormData(event.currentTarget);
+    const supabase = getSupabaseBrowserClient();
+    const { data: userData } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+
+    if (!supabase || !userData.user) {
+      setError('Please sign in before saving a memory.');
+    } else {
+      const { error: insertError } = await supabase.from('memories').insert({
+        user_id: userData.user.id,
+        title: String(formData.get('title')),
+        description: String(formData.get('description')),
+      });
+      if (insertError) setError(insertError.message);
+      else setSaved(true);
+    }
+    setSaving(false);
   }
 
   return (
@@ -57,8 +77,9 @@ export function PreserveMemoryButton() {
                   What happened?
                   <textarea required name="description" rows={4} placeholder="Write a few lines..." className="mt-2 w-full resize-none rounded-2xl border border-[#e4d8cf] bg-[#fbf8f5] px-4 py-3 text-sm outline-none focus:border-[#8c7767]" />
                 </label>
-                <button type="submit" className="w-full rounded-full bg-[#1a1715] px-5 py-3 text-sm font-medium text-[#f5efe9] hover:bg-[#312a26]">
-                  Save memory
+                {error && <p className="rounded-2xl bg-[#f9e4df] p-3 text-sm text-[#8c3f35]">{error}</p>}
+                <button disabled={saving} type="submit" className="w-full rounded-full bg-[#1a1715] px-5 py-3 text-sm font-medium text-[#f5efe9] hover:bg-[#312a26] disabled:opacity-60">
+                  {saving ? 'Saving...' : 'Save memory'}
                 </button>
               </form>
             )}

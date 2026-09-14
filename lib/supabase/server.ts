@@ -3,7 +3,25 @@ import { cookies } from 'next/headers';
 
 export type Database = {
   public: {
-    Tables: Record<string, never>;
+    Tables: {
+      memories: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          memory_date: string;
+          category: string;
+          location: string;
+          description: string;
+          mood: string;
+          favorite: boolean;
+          locked: boolean;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
+    };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: Record<string, never>;
