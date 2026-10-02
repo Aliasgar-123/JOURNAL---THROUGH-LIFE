@@ -18,7 +18,15 @@ export async function getMemories(): Promise<MemoryItem[]> {
   if (!userData.user) redirect('/auth');
 
   const { data } = await supabase.from('memories').select('*').order('memory_date', { ascending: false });
-  return (data ?? []).map((memory) => ({
+  const memories = data ?? [];
+  const { data: mediaData } = await supabase.from('media').select('id, memory_id, storage_path, caption');
+  const mediaRows = mediaData ?? [];
+  const { data: signedMedia } = mediaRows.length
+    ? await supabase.storage.from('memory-media').createSignedUrls(mediaRows.map((media) => media.storage_path), 3600)
+    : { data: [] };
+  const signedUrls = new Map((signedMedia ?? []).map((media) => [media.path, media.signedUrl]));
+
+  return memories.map((memory) => ({
     id: memory.id,
     title: memory.title,
     date: memory.memory_date,
@@ -28,7 +36,13 @@ export async function getMemories(): Promise<MemoryItem[]> {
     mood: memory.mood as MemoryItem['mood'],
     favorite: memory.favorite,
     locked: memory.locked,
-    mediaCount: 0,
+    mediaCount: mediaRows.filter((media) => media.memory_id === memory.id).length,
+    media: mediaRows
+      .filter((media) => media.memory_id === memory.id)
+      .flatMap((media) => {
+        const url = signedUrls.get(media.storage_path);
+        return url ? [{ id: media.id, url, caption: media.caption }] : [];
+      }),
     people: [],
     tags: [],
   }));

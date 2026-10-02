@@ -26,8 +26,15 @@ export type MemoryItem = {
   favorite: boolean;
   locked: boolean;
   mediaCount: number;
+  media: MemoryMedia[];
   people: string[];
   tags: string[];
+};
+
+export type MemoryMedia = {
+  id: string;
+  url: string;
+  caption: string;
 };
 
 export type DashboardStat = {

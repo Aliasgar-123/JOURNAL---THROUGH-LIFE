@@ -21,6 +21,19 @@ export type Database = {
         Update: never;
         Relationships: [];
       };
+      media: {
+        Row: {
+          id: string;
+          memory_id: string;
+          storage_path: string;
+          media_type: string;
+          caption: string;
+          created_at: string;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

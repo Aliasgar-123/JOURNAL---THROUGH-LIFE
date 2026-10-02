@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { SiteShell } from '@/components/site-shell';
 import { getMemories } from '@/lib/data';
 
@@ -20,6 +21,18 @@ export default async function MemoriesPage() {
             </div>
 
             <p className="mt-4 text-sm leading-7 text-[#554d49]">{memory.description}</p>
+            {memory.media.length > 0 && (
+              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                {memory.media.map((image) => (
+                  <figure key={image.id} className="overflow-hidden rounded-2xl border border-[#e7dfd7] bg-[#f8f3ee]">
+                    <div className="relative aspect-[4/3] w-full">
+                      <Image src={image.url} alt={image.caption || memory.title} fill sizes="(max-width: 640px) 100vw, 50vw" unoptimized className="object-cover" />
+                    </div>
+                    {image.caption && <figcaption className="px-3 py-2 text-sm text-[#554d49]">{image.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            )}
             <div className="mt-5 flex flex-wrap gap-2">
               {memory.people.map((person) => (
                 <span key={person} className="rounded-full border border-[#e4d3c6] px-2.5 py-1 text-xs text-[#584f49]">{person}</span>
