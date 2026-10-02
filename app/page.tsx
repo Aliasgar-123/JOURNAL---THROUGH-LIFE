@@ -1,7 +1,8 @@
-import { ArrowRight, CalendarDays, Heart, Lock, MapPinned, Sparkles, Star } from 'lucide-react';
+import { ArrowRight, CalendarDays, Lock, MapPinned, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
 import { getDashboardStats, getMemories, navItems } from '@/lib/data';
 import { PreserveMemoryButton } from '@/components/preserve-memory-button';
+import { OnThisDayCard } from '@/components/on-this-day-card';
 
 export default async function HomePage() {
   const memories = await getMemories();
@@ -115,17 +116,7 @@ export default async function HomePage() {
             </div>
 
             <div className="space-y-8">
-              <div className="rounded-[30px] border border-[#e7dfd7] bg-[#f7f1ec] p-6 shadow-[0_25px_60px_rgba(34,23,17,0.04)]">
-                <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-xl font-semibold tracking-[-0.05em] text-[#1a1715]">On this day</h3>
-                  <Heart size={18} className="text-[#d46f6b]" />
-                </div>
-                <p className="text-sm uppercase tracking-[0.22em] text-[#8a7769]">3 years ago</p>
-                <h4 className="mt-3 text-2xl font-semibold tracking-[-0.05em] text-[#1d1d1b]">A quiet evening in Dubai</h4>
-                <p className="mt-3 text-sm leading-6 text-[#544b45]">
-                  A mild wind, warm conversation, and a skyline that felt like a promise for everything still to come.
-                </p>
-              </div>
+              <OnThisDayCard memories={memories.map(({ id, title, date, category, description }) => ({ id, title, date, category, description }))} />
 
               <div className="rounded-[30px] border border-[#e7dfd7] bg-[#f9f4f1] p-6 shadow-[0_25px_60px_rgba(34,23,17,0.04)]">
                 <div className="mb-5 flex items-center justify-between">
