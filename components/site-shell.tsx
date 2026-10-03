@@ -2,14 +2,17 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { navItems } from '@/lib/data';
 import { PreserveMemoryButton } from './preserve-memory-button';
+import type { MemoryCategory } from '@/lib/types';
 
 export function SiteShell({
   title,
   subtitle,
+  memoryCategory,
   children,
 }: {
   title: string;
   subtitle: string;
+  memoryCategory?: MemoryCategory;
   children: React.ReactNode;
 }) {
   return (
@@ -55,7 +58,7 @@ export function SiteShell({
                 <h2 className="mt-2 text-4xl font-semibold tracking-[-0.07em] text-[#1a1715]">{title}</h2>
               </div>
 
-              <PreserveMemoryButton />
+              <PreserveMemoryButton category={memoryCategory} />
             </div>
           </header>
 
