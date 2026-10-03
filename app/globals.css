@@ -28,6 +28,13 @@ body {
   font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
+.dashboard-canvas {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(221, 196, 173, 0.35), transparent 28%),
+    radial-gradient(circle at 90% 80%, rgba(175, 194, 201, 0.35), transparent 30%),
+    #f6f1e8;
+}
+
 * {
   box-sizing: border-box;
 }
