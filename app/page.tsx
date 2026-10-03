@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getDashboardStats, getMemories, navItems } from '@/lib/data';
 import { PreserveMemoryButton } from '@/components/preserve-memory-button';
 import { OnThisDayCard } from '@/components/on-this-day-card';
-import { MemoryWall } from '@/components/memory-wall';
+import { DashboardMemoryBrowser } from '@/components/dashboard-memory-browser';
 
 export default async function HomePage() {
   const memories = await getMemories();
@@ -74,18 +74,7 @@ export default async function HomePage() {
             ))}
           </section>
 
-          <section aria-labelledby="memory-wall-heading">
-            <div className="mb-6 flex items-end justify-between gap-4">
-              <div>
-                <p className="font-sans text-[10px] uppercase tracking-[0.14em] text-[#8b9189]">Collected along the way</p>
-                <h3 id="memory-wall-heading" className="mt-1 font-serif text-2xl font-normal text-[#38403d]">Your memories</h3>
-              </div>
-              <Link href="/memories" className="pb-1 font-sans text-xs text-[#725f52] underline decoration-[#c8b8a9] underline-offset-4 hover:text-[#3f403d]">
-                View archive
-              </Link>
-            </div>
-            <MemoryWall memories={memories} />
-          </section>
+          <DashboardMemoryBrowser memories={memories} />
 
           <section className="grid gap-8 border-t border-[#d9d4ca] pt-8 xl:grid-cols-[1fr_0.9fr]">
             <OnThisDayCard memories={memories.map(({ id, title, date, category, description, favorite }) => ({ id, title, date, category, description, favorite }))} />
