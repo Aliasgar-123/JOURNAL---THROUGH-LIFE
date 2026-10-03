@@ -6,6 +6,7 @@ export const navItems = [
   { href: '/', label: 'Dashboard', icon: 'home' },
   { href: '/timeline', label: 'Timeline', icon: 'calendar' },
   { href: '/memories', label: 'Memories', icon: 'book' },
+  { href: '/favorites', label: 'Favorites', icon: 'heart' },
   { href: '/travel', label: 'Travel', icon: 'map' },
   { href: '/academia', label: 'Academia', icon: 'graduation-cap' },
 ];
@@ -41,7 +42,7 @@ export async function getMemories(): Promise<MemoryItem[]> {
       .filter((media) => media.memory_id === memory.id)
       .flatMap((media) => {
         const url = signedUrls.get(media.storage_path);
-        return url ? [{ id: media.id, url, caption: media.caption }] : [];
+        return url ? [{ id: media.id, url, caption: media.caption, storagePath: media.storage_path }] : [];
       }),
     people: [],
     tags: [],

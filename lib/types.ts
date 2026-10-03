@@ -35,6 +35,7 @@ export type MemoryMedia = {
   id: string;
   url: string;
   caption: string;
+  storagePath: string;
 };
 
 export type DashboardStat = {

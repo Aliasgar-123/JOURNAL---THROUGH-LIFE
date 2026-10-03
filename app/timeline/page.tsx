@@ -1,4 +1,5 @@
 import { SiteShell } from '@/components/site-shell';
+import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
 import { getMemories } from '@/lib/data';
 
 export default async function TimelinePage() {
@@ -16,6 +17,9 @@ export default async function TimelinePage() {
               {memory.category}
             </div>
             <h3 className="mt-5 text-2xl font-semibold tracking-[-0.045em] text-[#1e1a18]">{memory.title}</h3>
+            <div className="mt-3">
+              <FavoriteMemoryButton memory={memory} />
+            </div>
           </article>
           );
         })}

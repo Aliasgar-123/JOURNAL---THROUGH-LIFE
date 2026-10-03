@@ -27,7 +27,16 @@ export type Database = {
           favorite?: boolean;
           locked?: boolean;
         };
-        Update: never;
+        Update: {
+          title?: string;
+          memory_date?: string;
+          category?: string;
+          location?: string;
+          description?: string;
+          mood?: string;
+          favorite?: boolean;
+          locked?: boolean;
+        };
         Relationships: [];
       };
       media: {
@@ -45,7 +54,12 @@ export type Database = {
           media_type?: string;
           caption?: string;
         };
-        Update: never;
+        Update: {
+          memory_id?: string;
+          storage_path?: string;
+          media_type?: string;
+          caption?: string;
+        };
         Relationships: [];
       };
     };

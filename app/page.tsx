@@ -88,7 +88,7 @@ export default async function HomePage() {
           </section>
 
           <section className="grid gap-8 border-t border-[#d9d4ca] pt-8 xl:grid-cols-[1fr_0.9fr]">
-            <OnThisDayCard memories={memories.map(({ id, title, date, category, description }) => ({ id, title, date, category, description }))} />
+            <OnThisDayCard memories={memories.map(({ id, title, date, category, description, favorite }) => ({ id, title, date, category, description, favorite }))} />
 
             <div className="border-t border-[#d9d4ca] pt-6 xl:border-l xl:border-t-0 xl:pl-8 xl:pt-0">
               <div className="mb-5 flex items-center justify-between">

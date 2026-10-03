@@ -3,8 +3,9 @@
 import { Heart } from 'lucide-react';
 import { useState, useSyncExternalStore } from 'react';
 import type { MemoryItem } from '@/lib/types';
+import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
 
-type OnThisDayMemory = Pick<MemoryItem, 'id' | 'title' | 'date' | 'category' | 'description'>;
+type OnThisDayMemory = Pick<MemoryItem, 'id' | 'title' | 'date' | 'category' | 'description' | 'favorite'>;
 
 function subscribeToDate() {
   return () => {};
@@ -74,6 +75,9 @@ export function OnThisDayCard({ memories }: { memories: OnThisDayMemory[] }) {
               <p className="text-xs uppercase tracking-[0.18em] text-[#8a7769]">{memory.category} · {memory.date}</p>
               <h4 className="mt-2 text-2xl font-semibold tracking-[-0.05em] text-[#1d1d1b]">{memory.title}</h4>
               {memory.description && <p className="mt-3 text-sm leading-6 text-[#544b45]">{memory.description}</p>}
+              <div className="mt-3">
+                <FavoriteMemoryButton memory={memory} />
+              </div>
             </article>
           ))}
         </div>

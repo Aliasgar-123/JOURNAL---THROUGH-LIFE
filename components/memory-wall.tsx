@@ -1,9 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Heart, Lock, Star } from 'lucide-react';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight, Lock, MapPin, Star } from 'lucide-react';
 import { useState } from 'react';
 import type { MemoryItem } from '@/lib/types';
+import { EditMemoryButton } from '@/components/edit-memory-button';
+import { DeleteMemoryButton } from '@/components/delete-memory-button';
+import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
 
 function MemoryCard({ memory, index }: { memory: MemoryItem; index: number }) {
   const [activePhoto, setActivePhoto] = useState(0);
@@ -78,19 +82,28 @@ function MemoryCard({ memory, index }: { memory: MemoryItem; index: number }) {
       <div className="px-2 pt-4">
         <div className="font-sans text-[10px] uppercase tracking-[0.12em] text-[#92948e]">{date}</div>
         <div className="mt-1 flex items-start justify-between gap-2">
-          <h3 className="font-serif text-xl font-medium leading-tight text-[#404541]">{memory.title}</h3>
+          <h3 className="font-serif text-xl font-medium leading-tight text-[#404541]">
+            <Link href={`/memory/${memory.id}`} className="hover:underline hover:decoration-[#c8b8a9] hover:underline-offset-4">
+              {memory.title}
+            </Link>
+          </h3>
           <span className="flex shrink-0 items-center gap-2 pt-1">
             {memory.favorite && <Star size={14} className="fill-[#d1a35f] text-[#b88d50]" aria-label="Favorite" />}
             {memory.locked && <Lock size={14} className="text-[#7a685d]" aria-label="Private" />}
+            <EditMemoryButton memory={memory} />
+            <DeleteMemoryButton memory={memory} />
           </span>
         </div>
         {memory.description && <p className="mt-2 font-sans text-xs leading-[1.55] text-[#858881]">{memory.description}</p>}
-        {memory.location && (
-          <div className="mt-3 flex items-center gap-1.5 font-sans text-[10px] text-[#92948e]">
-            <Heart size={11} className="text-[#bd8377]" />
-            <span>{memory.location}</span>
-          </div>
-        )}
+        <div className="mt-3 flex items-center gap-2">
+          <FavoriteMemoryButton memory={memory} />
+          {memory.location && (
+            <div className="flex items-center gap-1.5 font-sans text-[10px] text-[#92948e]">
+              <MapPin size={11} className="text-[#bd8377]" />
+              <span>{memory.location}</span>
+            </div>
+          )}
+        </div>
       </div>
     </article>
   );
