@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { navItems } from '@/lib/data';
 import { PreserveMemoryButton } from './preserve-memory-button';
+import { LogoutButton } from './logout-button';
 import type { MemoryCategory } from '@/lib/types';
 
 export function SiteShell({
@@ -18,7 +19,7 @@ export function SiteShell({
   return (
     <main className="min-h-screen bg-[#f5f0ea] text-[#1d1d1b]">
       <div className="mx-auto flex max-w-7xl gap-8 px-6 py-8 lg:px-8">
-        <aside className="hidden w-72 shrink-0 rounded-[30px] border border-[#e7dfd7] bg-[#fbf8f5] p-6 shadow-[0_25px_60px_rgba(34,23,17,0.06)] lg:block">
+        <aside className="hidden w-72 shrink-0 flex-col rounded-[30px] border border-[#e7dfd7] bg-[#fbf8f5] p-6 shadow-[0_25px_60px_rgba(34,23,17,0.06)] lg:flex lg:min-h-[calc(100vh-4rem)]">
           <div className="mb-8">
             <div className="text-xs uppercase tracking-[0.3em] text-[#8c7767]">My Life</div>
             <h1 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-[#1c1917]">Journal</h1>
@@ -39,6 +40,9 @@ export function SiteShell({
                 {index === 0 && <ArrowRight size={14} />}
               </Link>
             ))}
+            <div className="pt-2">
+              <LogoutButton />
+            </div>
           </nav>
 
           <div className="mt-10 rounded-[28px] bg-[#1f1a17] p-4 text-[#f5efe9]">
