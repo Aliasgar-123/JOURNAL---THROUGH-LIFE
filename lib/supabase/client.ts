@@ -15,6 +15,7 @@ export type Database = {
           mood: string;
           favorite: boolean;
           locked: boolean;
+          trip_id: string | null;
         };
         Insert: {
           user_id: string;
@@ -26,6 +27,7 @@ export type Database = {
           mood?: string;
           favorite?: boolean;
           locked?: boolean;
+          trip_id?: string | null;
         };
         Update: {
           title?: string;
@@ -36,6 +38,23 @@ export type Database = {
           mood?: string;
           favorite?: boolean;
           locked?: boolean;
+          trip_id?: string | null;
+        };
+        Relationships: [];
+      };
+      trips: {
+        Row: {
+          id: string;
+          user_id: string;
+          name: string;
+          created_at: string;
+        };
+        Insert: {
+          user_id: string;
+          name: string;
+        };
+        Update: {
+          name?: string;
         };
         Relationships: [];
       };

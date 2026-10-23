@@ -27,12 +27,20 @@ create table public.profiles (
   updated_at timestamptz not null default now()
 );
 
+create table public.trips (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null check (char_length(trim(name)) > 0),
+  created_at timestamptz not null default now()
+);
+
 create table public.memories (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   title text not null check (char_length(trim(title)) > 0),
   memory_date date not null default current_date,
   category public.memory_category not null default 'Other',
+  trip_id uuid references public.trips(id) on delete set null,
   location text not null default '',
   description text not null default '',
   mood public.memory_mood not null default 'Reflective',
@@ -89,6 +97,7 @@ on conflict (id) do update set
 
 create index memories_user_date_idx on public.memories (user_id, memory_date desc);
 create index memories_user_category_idx on public.memories (user_id, category);
+create index trips_user_created_idx on public.trips (user_id, created_at desc);
 create index memory_people_person_idx on public.memory_people (person_id);
 create index memory_tags_tag_idx on public.memory_tags (tag_id);
 create index media_memory_idx on public.media (memory_id);
@@ -131,6 +140,7 @@ after insert on auth.users
 for each row execute function public.handle_new_user();
 
 alter table public.profiles enable row level security;
+alter table public.trips enable row level security;
 alter table public.memories enable row level security;
 alter table public.people enable row level security;
 alter table public.memory_people enable row level security;
@@ -143,10 +153,26 @@ on public.profiles for all
 using (auth.uid() = id)
 with check (auth.uid() = id);
 
+create policy "Users can manage their own trips"
+on public.trips for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+drop policy if exists "Users can manage their own memories" on public.memories;
 create policy "Users can manage their own memories"
 on public.memories for all
 using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
+with check (
+  auth.uid() = user_id
+  and (
+    trip_id is null
+    or exists (
+      select 1 from public.trips
+      where trips.id = memories.trip_id
+        and trips.user_id = auth.uid()
+    )
+  )
+);
 
 create policy "Users can manage their own people"
 on public.people for all

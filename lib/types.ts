@@ -25,10 +25,18 @@ export type MemoryItem = {
   mood: MemoryMood;
   favorite: boolean;
   locked: boolean;
+  tripId: string | null;
   mediaCount: number;
   media: MemoryMedia[];
   people: string[];
   tags: string[];
+};
+
+export type TripFolder = {
+  id: string;
+  name: string;
+  createdAt: string;
+  memoryCount: number;
 };
 
 export type MemoryMedia = {

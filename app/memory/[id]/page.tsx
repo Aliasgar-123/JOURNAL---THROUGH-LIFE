@@ -24,7 +24,9 @@ export default async function MemoryDetailPage({ params }: { params: Promise<{ i
     <SiteShell
       title={memory.title}
       subtitle={`${memory.category} · ${date}`}
-      memoryCategory={memory.category === 'Travel' ? 'Travel' : undefined}
+      memoryCategory={memory.category === 'Travel' && memory.tripId ? 'Travel' : undefined}
+      tripId={memory.tripId ?? undefined}
+      hideCreateMemoryButton={memory.category === 'Travel' && !memory.tripId}
     >
       <article className="rounded-[28px] border border-[#e7dfd7] bg-[#fffdfb] p-6 shadow-sm">
         <Link href={archiveHref} className="inline-flex items-center gap-2 text-sm text-[#725f52] hover:text-[#3f403d]">

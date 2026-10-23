@@ -25,7 +25,7 @@
 	   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEsb_ey_your_your
 	 ```
 
- 3. In **SQL Editor**, paste the complete contents of `supabase/schema.sql` and click **Run**. This creates the profile, memory, people, tags, media, and relationship tables, the new-user profile trigger, indexes, and row-level security policies. Run it once per project; if you already ran an older version, run the changed statements separately or recreate the development database.
+ 3. In **SQL Editor**, paste the complete contents of `supabase/schema.sql` and click **Run**. This creates the profile, trip, memory, people, tags, media, and relationship tables, the new-user profile trigger, indexes, and row-level security policies. For an existing project, run `supabase/trips-migration.sql` to add trip folders without deleting existing memories.
  4. In **Authentication -> Providers -> Email**, keep **Email** enabled. For local development, you can disable **Confirm email** to sign in immediately. For production, leave confirmation enabled.
  5. In **Authentication -> URL Configuration**, set **Site URL** to `http://localhost:3000` while developing. Add your deployed URL to **Redirect URLs** before deploying. Email confirmation links must point to a URL in this allowlist.
  6. Restart `npm run dev` after changing `.env.local`. Visit `/auth`, create an account, confirm the email if required, and sign in. The profile row is created automatically by the `on_auth_user_created` trigger.

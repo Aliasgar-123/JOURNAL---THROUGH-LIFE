@@ -9,11 +9,15 @@ export function SiteShell({
   title,
   subtitle,
   memoryCategory,
+  tripId,
+  hideCreateMemoryButton = false,
   children,
 }: {
   title: string;
   subtitle: string;
   memoryCategory?: MemoryCategory;
+  tripId?: string;
+  hideCreateMemoryButton?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -62,7 +66,7 @@ export function SiteShell({
                 <h2 className="mt-2 text-4xl font-semibold tracking-[-0.07em] text-[#1a1715]">{title}</h2>
               </div>
 
-              <PreserveMemoryButton category={memoryCategory} />
+              {!hideCreateMemoryButton && <PreserveMemoryButton category={memoryCategory} tripId={tripId} />}
             </div>
           </header>
 

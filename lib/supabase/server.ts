@@ -16,6 +16,18 @@ export type Database = {
           mood: string;
           favorite: boolean;
           locked: boolean;
+          trip_id: string | null;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
+      trips: {
+        Row: {
+          id: string;
+          user_id: string;
+          name: string;
+          created_at: string;
         };
         Insert: never;
         Update: never;
