@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { EditMemoryButton } from '@/components/edit-memory-button';
 import { DeleteMemoryButton } from '@/components/delete-memory-button';
 import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 import type { MemoryItem } from '@/lib/types';
 
 export function TravelMemoryList({ memories, emptyMessage }: { memories: MemoryItem[]; emptyMessage: string }) {
@@ -38,17 +38,7 @@ export function TravelMemoryList({ memories, emptyMessage }: { memories: MemoryI
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {memory.media.map((image) => (
                 <figure key={image.id} className="overflow-hidden rounded-2xl border border-[#e7dfd7] bg-[#f8f3ee]">
-                  <div className="relative aspect-[4/3] w-full">
-                    <Image
-                      src={image.url}
-                      alt={image.caption || memory.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 50vw"
-                      unoptimized
-                      loading="lazy"
-                      className="object-cover"
-                    />
-                  </div>
+                  <MemoryPhotoButton memory={memory} photo={image} className="relative aspect-[4/3] w-full" />
                   {image.caption && <figcaption className="px-3 py-2 text-sm text-[#554d49]">{image.caption}</figcaption>}
                 </figure>
               ))}

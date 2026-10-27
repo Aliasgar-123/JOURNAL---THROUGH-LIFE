@@ -1,5 +1,6 @@
 import { SiteShell } from '@/components/site-shell';
 import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 import { getMemories } from '@/lib/data';
 
 export default async function TimelinePage() {
@@ -17,6 +18,13 @@ export default async function TimelinePage() {
               {memory.category}
             </div>
             <h3 className="mt-5 text-2xl font-semibold tracking-[-0.045em] text-[#1e1a18]">{memory.title}</h3>
+            {memory.media[0] && (
+              <MemoryPhotoButton
+                memory={memory}
+                photo={memory.media[0]}
+                className="relative mt-5 aspect-[16/10] w-full overflow-hidden rounded-2xl bg-[#e5e0d7]"
+              />
+            )}
             <div className="mt-3">
               <FavoriteMemoryButton memory={memory} />
             </div>

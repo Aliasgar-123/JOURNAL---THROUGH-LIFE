@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { PhotoLightboxProvider } from '@/components/photo-lightbox';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -20,7 +21,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#f5f0ea] text-[#1d1d1b]">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#f5f0ea] text-[#1d1d1b]">
+        <PhotoLightboxProvider>{children}</PhotoLightboxProvider>
+      </body>
     </html>
   );
 }

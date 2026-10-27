@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, MapPin } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { SiteShell } from '@/components/site-shell';
 import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 import { getMemories } from '@/lib/data';
 
 export default async function MemoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -46,9 +46,7 @@ export default async function MemoryDetailPage({ params }: { params: Promise<{ i
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {memory.media.map((photo) => (
               <figure key={photo.id} className="overflow-hidden rounded-2xl border border-[#e7dfd7] bg-[#f8f3ee]">
-                <div className="relative aspect-[4/3] w-full">
-                  <Image src={photo.url} alt={photo.caption || memory.title} fill sizes="(max-width: 640px) 100vw, 50vw" unoptimized className="object-cover" />
-                </div>
+                <MemoryPhotoButton memory={memory} photo={photo} className="relative aspect-[4/3] w-full" />
                 {photo.caption && <figcaption className="px-3 py-2 text-sm text-[#554d49]">{photo.caption}</figcaption>}
               </figure>
             ))}

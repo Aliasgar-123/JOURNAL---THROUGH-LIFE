@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { SiteShell } from '@/components/site-shell';
 import { CreateTripButton } from '@/components/create-trip-button';
 import { TravelMemoryList } from '@/components/travel-memory-list';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 import { getMemories, getTrips } from '@/lib/data';
 
 export default async function TravelPage() {
@@ -13,7 +13,7 @@ export default async function TravelPage() {
     ...trip,
     coverPhotos: memories
       .filter((memory) => memory.tripId === trip.id)
-      .flatMap((memory) => memory.media)
+      .flatMap((memory) => memory.media.map((photo) => ({ photo, memory })))
       .slice(0, 3),
   }));
 
@@ -30,27 +30,31 @@ export default async function TravelPage() {
         ) : (
           <section aria-label="Trip folders" className="folder-grid">
             {tripsWithPhotos.map((trip) => (
-              <Link
+              <div
                 key={trip.id}
-                href={`/travel/${trip.id}`}
                 className="trip-folder"
               >
-                <span className="folder-art" aria-hidden="true">
+                <span className="folder-art">
+                  <Link href={`/travel/${trip.id}`} aria-label={`Open ${trip.name} trip folder`} className="trip-folder-art-link" />
                   <span className="folder-back" />
-                  {trip.coverPhotos.slice(0, 3).map((photo, index) => (
-                    <span key={photo.id} className={`folder-photo photo-${['one', 'two', 'three'][index]}`}>
-                      <span className="folder-photo-image">
-                        <Image src={photo.url} alt="" fill sizes="55px" unoptimized />
-                      </span>
-                    </span>
+                  {trip.coverPhotos.map(({ photo, memory }, index) => (
+                    <MemoryPhotoButton
+                      key={photo.id}
+                      memory={memory}
+                      photo={photo}
+                      aria-label={`View photo${photo.caption ? `: ${photo.caption}` : ` for ${memory.title}`}`}
+                      className={`folder-photo photo-${['one', 'two', 'three'][index]}`}
+                      imageWrapperClassName="folder-photo-image"
+                      sizes="55px"
+                    />
                   ))}
                   <span className="folder-front" />
                 </span>
-                <span className="folder-name">{trip.name}</span>
-                <span className="folder-meta">
+                <Link href={`/travel/${trip.id}`} className="folder-name">{trip.name}</Link>
+                <Link href={`/travel/${trip.id}`} className="folder-meta">
                   {trip.memoryCount} {trip.memoryCount === 1 ? 'memory' : 'memories'} · Open folder <ArrowUpRight size={11} aria-hidden="true" />
-                </span>
-              </Link>
+                </Link>
+              </div>
             ))}
           </section>
         )}

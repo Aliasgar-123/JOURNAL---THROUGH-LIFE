@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { Pencil, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { MemoryItem } from '@/lib/types';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 
 const maxImageSize = 10 * 1024 * 1024;
 const maxImageCount = 8;
@@ -220,9 +220,12 @@ export function EditMemoryButton({ memory }: { memory: MemoryItem }) {
                     const removed = removedMediaIds.includes(photo.id);
                     return (
                       <div key={photo.id} className={`flex gap-3 rounded-2xl border border-[#e4d8cf] p-3 ${removed ? 'opacity-55' : ''}`}>
-                        <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-[#f2eae2]">
-                          <Image src={photo.url} alt={photo.caption || memory.title} fill sizes="80px" unoptimized className="object-cover" />
-                        </div>
+                        <MemoryPhotoButton
+                          memory={memory}
+                          photo={photo}
+                          sizes="80px"
+                          className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-[#f2eae2]"
+                        />
                         <div className="min-w-0 flex-1">
                           <label className="block text-xs text-[#685d56]">
                             Caption

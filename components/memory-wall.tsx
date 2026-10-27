@@ -1,10 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Lock, MapPin, Star } from 'lucide-react';
 import { useState } from 'react';
 import type { MemoryItem } from '@/lib/types';
+import { MemoryPhotoButton } from '@/components/photo-lightbox';
 import { EditMemoryButton } from '@/components/edit-memory-button';
 import { DeleteMemoryButton } from '@/components/delete-memory-button';
 import { FavoriteMemoryButton } from '@/components/favorite-memory-button';
@@ -41,13 +41,11 @@ function MemoryCard({ memory, index }: { memory: MemoryItem; index: number }) {
       <div className="absolute left-1/2 top-2 z-10 h-[22px] w-[76px] -translate-x-1/2 -rotate-2 bg-[rgba(220,202,164,0.72)]" aria-hidden="true" />
       <div className="relative aspect-square overflow-hidden bg-[#e5e0d7] sm:aspect-[4/3]">
         {photo ? (
-          <Image
-            src={photo.url}
-            alt={photo.caption || memory.title}
-            fill
+          <MemoryPhotoButton
+            memory={memory}
+            photo={photo}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            unoptimized
-            className="object-cover transition duration-700 group-hover:scale-[1.05]"
+            className="absolute inset-0 h-full w-full transition duration-700 group-hover:scale-[1.05]"
           />
         ) : (
           <div className="flex h-full items-center justify-center px-8 text-center font-serif text-lg text-[#91877d]">
