@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
-export function LogoutButton() {
+export function LogoutButton({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [error, setError] = useState('');
@@ -32,15 +32,19 @@ export function LogoutButton() {
   }
 
   return (
-    <div className="flex flex-col items-end gap-1">
+    <div className={`flex w-full flex-col gap-1 ${compact ? 'items-center' : 'items-end'}`}>
       <button
         type="button"
         onClick={handleSignOut}
         disabled={isSigningOut}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#d9d0c8] px-4 py-3 text-sm font-medium text-[#584d47] hover:bg-[#efe5dd] disabled:opacity-60"
+        aria-label={compact ? (isSigningOut ? 'Signing out' : 'Log out') : undefined}
+        title={compact ? (isSigningOut ? 'Signing out' : 'Log out') : undefined}
+        className={`inline-flex w-full items-center justify-center gap-2 border border-[#d9d0c8] text-sm font-medium text-[#584d47] hover:bg-[#efe5dd] disabled:opacity-60 ${
+          compact ? 'size-11 rounded-2xl p-0' : 'rounded-full px-4 py-3'
+        }`}
       >
         <LogOut size={16} />
-        {isSigningOut ? 'Signing out...' : 'Log out'}
+        {!compact && (isSigningOut ? 'Signing out...' : 'Log out')}
       </button>
       {error && <p role="alert" className="max-w-48 text-right text-xs text-[#8c3f35]">{error}</p>}
     </div>

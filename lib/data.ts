@@ -1,15 +1,7 @@
 import { getSupabaseServerClient } from './supabase/server';
 import { redirect } from 'next/navigation';
 import type { DashboardStat, MemoryItem, TripFolder } from './types';
-
-export const navItems = [
-  { href: '/', label: 'Dashboard', icon: 'home' },
-  { href: '/timeline', label: 'Timeline', icon: 'calendar' },
-  { href: '/memories', label: 'Memories', icon: 'book' },
-  { href: '/favorites', label: 'Favorites', icon: 'heart' },
-  { href: '/travel', label: 'Travel', icon: 'map' },
-  { href: '/academia', label: 'Academia', icon: 'graduation-cap' },
-];
+export { navItems } from './navigation';
 
 async function getAuthenticatedSupabase() {
   const supabase = await getSupabaseServerClient();

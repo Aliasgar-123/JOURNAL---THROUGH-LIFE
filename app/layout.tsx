@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PhotoLightboxProvider } from '@/components/photo-lightbox';
+import { JournalSidebarProvider } from '@/components/journal-sidebar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#f5f0ea] text-[#1d1d1b]">
-        <PhotoLightboxProvider>{children}</PhotoLightboxProvider>
+        <JournalSidebarProvider>
+          <PhotoLightboxProvider>{children}</PhotoLightboxProvider>
+        </JournalSidebarProvider>
       </body>
     </html>
   );
